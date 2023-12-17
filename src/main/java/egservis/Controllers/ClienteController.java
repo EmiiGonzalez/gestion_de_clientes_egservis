@@ -1,5 +1,6 @@
 package egservis.Controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,14 +33,19 @@ public class ClienteController {
     @PostMapping(value = "/save", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<?> save(@RequestBody @Valid ClienteDTO clienteDTO) {
-        if (clienteService.existsByDni(clienteDTO.dni())) {
+        try {
+            if (clienteService.existsByDni(clienteDTO.dni())) {
             String mensaje = "Ya existe un cliente con el dni: " + clienteDTO.dni();
-            return ResponseEntity.status(409).body(mensaje);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(mensaje);
         } else {
             Cliente cliente = new Cliente(clienteDTO);
             clienteService.save(cliente);
             String mensaje = "Se ha guardado el cliente con el dni: " + clienteDTO.dni();
-            return ResponseEntity.status(201).body(mensaje);
+            return ResponseEntity.status(HttpStatus.CREATED).body(mensaje);
+        }
+        } catch (Exception e) {
+            String mensaje = "Hubo un error al procesar la petición" + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
         }
     }
     
