@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import egservis.Dto.ClienteDTO;
+import egservis.Dto.Cliente.ClienteDTO;
+import egservis.Dto.Cliente.ClienteUpdateDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,11 +28,13 @@ public class Cliente implements Serializable{
     private String nombre;
     private String apellido;
     private String numTelefono;
+    private Boolean activo;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
     private List<Pedido> pedidos = new ArrayList<>(); 
 
     public Cliente(String dni, String nombre, String apellido, String numTelefono) {
+        this.activo = true;
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -39,6 +42,7 @@ public class Cliente implements Serializable{
     }
 
     public Cliente(ClienteDTO clienteDTO) {
+        this.activo = true;
         this.dni = clienteDTO.dni();
         this.nombre = clienteDTO.nombre();
         this.apellido = clienteDTO.apellido();
@@ -48,5 +52,24 @@ public class Cliente implements Serializable{
     public void addPedidos(Pedido pedido) {
         pedidos.add(pedido);
         pedido.setCliente(this);
+    }
+
+    public void actualizarDatos(ClienteUpdateDTO clienteUpdate) {
+        if(clienteUpdate.dni() != null && !clienteUpdate.dni().isEmpty()) {
+            this.dni = clienteUpdate.dni();
+        }
+        if(clienteUpdate.nombre() != null && !clienteUpdate.nombre().isEmpty()) {
+            this.nombre = clienteUpdate.nombre();
+        }
+        if(clienteUpdate.apellido() != null && !clienteUpdate.apellido().isEmpty()) {
+            this.apellido = clienteUpdate.apellido();
+        }
+        if(clienteUpdate.numTelefono() != null && !clienteUpdate.numTelefono().isEmpty()) {
+            this.numTelefono = clienteUpdate.numTelefono();
+        }
+    }
+
+    public void desactivar() {
+        this.activo = false;
     }
 }

@@ -1,8 +1,10 @@
 package egservis.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import egservis.Dto.Cliente.DatosListadoCliente;
 import egservis.models.Cliente;
 import egservis.repository.ClienteRepository;
 
@@ -27,12 +29,8 @@ public class ClienteService {
         clienteRepository.delete(cliente);
     }
 
-    public List<Cliente> findAll() {
-        return clienteRepository.findAll();
-    }
-
-    public void update(Cliente cliente) {
-        clienteRepository.save(cliente);
+    public Cliente findById(Long id) {
+        return clienteRepository.findById(id).orElse(null);
     }
 
     public void deleteById(Long id) {
@@ -46,6 +44,9 @@ public class ClienteService {
     public boolean existsById(Long id) {
         return clienteRepository.existsById(id);
     }
-    
 
+    public Page<DatosListadoCliente> getAll(Pageable pageable) {
+        //return clienteRepository.findAll(pageable).map(DatosListadoCliente::new);
+        return clienteRepository.findByActivoTrue(pageable).map(DatosListadoCliente::new);
+    }
 }

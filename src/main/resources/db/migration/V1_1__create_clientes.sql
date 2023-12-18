@@ -1,7 +1,8 @@
 CREATE TABLE clientes (
     idCliente BIGINT AUTO_INCREMENT PRIMARY KEY,
-    dni VARCHAR(255),
-    nombre VARCHAR(255),
-    apellido VARCHAR(255),
-    numTelefono VARCHAR(255)
+    dni VARCHAR(255) UNIQUE NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    numTelefono VARCHAR(255) NOT NULL,
+    activo TINYINT(1) NOT NULL
 );
