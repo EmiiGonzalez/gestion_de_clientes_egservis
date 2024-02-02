@@ -1,4 +1,4 @@
-package egservis.services;
+package egservis.services.Cliente;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import egservis.Dto.Cliente.DatosListadoCliente;
 import egservis.models.Cliente;
 import egservis.repository.ClienteRepository;
+import jakarta.validation.constraints.NotNull;
 
 @Service
-public class ClienteService {
+public class ClienteServiceImp implements ClienteService{
     
     private final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository) {
+    public ClienteServiceImp(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
@@ -21,7 +22,7 @@ public class ClienteService {
         return clienteRepository.findByDni(dni);
     }
 
-    public void save(Cliente cliente) {
+    public void save(@NotNull Cliente cliente) {
         clienteRepository.save(cliente);
     }
 
@@ -29,7 +30,7 @@ public class ClienteService {
         clienteRepository.delete(cliente);
     }
 
-    public Cliente findById(Long id) {
+    public Cliente findById(@NotNull Long id) {
         return clienteRepository.findById(id).orElse(null);
     }
 
@@ -41,7 +42,7 @@ public class ClienteService {
         return clienteRepository.existsByDni(dni);
     }
 
-    public boolean existsById(Long id) {
+    public boolean existsById(@NotNull Long id) {
         return clienteRepository.existsById(id);
     }
 

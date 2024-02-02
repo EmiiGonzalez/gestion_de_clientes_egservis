@@ -19,7 +19,8 @@ import egservis.Dto.Cliente.ClienteDTO;
 import egservis.Dto.Cliente.ClienteUpdateDTO;
 import egservis.Dto.Cliente.DatosListadoCliente;
 import egservis.models.Cliente;
-import egservis.services.ClienteService;
+import egservis.services.Cliente.ClienteService;
+import egservis.services.Cliente.ClienteServiceImp;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -29,7 +30,7 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
-    public ClienteController(ClienteService clienteService) {
+    public ClienteController(ClienteServiceImp clienteService) {
         this.clienteService = clienteService;
     }
 
