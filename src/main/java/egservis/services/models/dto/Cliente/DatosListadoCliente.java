@@ -1,6 +1,6 @@
-package egservis.Dto.Cliente;
+package egservis.services.models.dto.Cliente;
 
-import egservis.models.Cliente;
+import egservis.Entities.Cliente;
 
 public record DatosListadoCliente(Long id,String dni,
 String nombre,

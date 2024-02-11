@@ -4,9 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import egservis.Dto.Cliente.DatosListadoCliente;
-import egservis.models.Cliente;
+import egservis.Entities.Cliente;
 import egservis.repository.ClienteRepository;
+import egservis.services.models.dto.Cliente.DatosListadoCliente;
 import jakarta.validation.constraints.NotNull;
 
 @Service

@@ -1,4 +1,4 @@
-package egservis.Dto.Cliente;
+package egservis.services.models.dto.Cliente;
 
 import jakarta.validation.constraints.NotNull;
 

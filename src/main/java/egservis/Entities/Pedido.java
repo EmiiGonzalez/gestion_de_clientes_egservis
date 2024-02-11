@@ -1,4 +1,4 @@
-package egservis.models;
+package egservis.Entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,8 +6,9 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import egservis.models.enums.Estado;
-import egservis.models.enums.Servicio;
+import egservis.services.models.enums.Estado;
+import egservis.services.models.enums.Servicio;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,10 +37,13 @@ public class Pedido implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
+    @Column(name = "id_pedido")
     private Long idPedido;
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_ingreso")
     private LocalDate fechaIngreso;
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_entrega")
     private LocalDate fechaEntrega;
     private BigDecimal presupuesto;
     @Enumerated(EnumType.STRING)
@@ -49,11 +53,11 @@ public class Pedido implements Serializable{
 
     // Relaciones
     @ManyToOne
-    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     private Cliente cliente;
 
     @OneToOne(mappedBy = "pedido")
-    @JoinColumn(name = "idDispositivo", referencedColumnName = "idDispositivo")
+    @JoinColumn(name = "id_dispositivo", referencedColumnName = "id_dispositivo")
     private Dispositivo dispositivo;
     
 }

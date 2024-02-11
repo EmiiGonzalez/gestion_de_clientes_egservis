@@ -1,12 +1,13 @@
-package egservis.models;
+package egservis.Entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import egservis.Dto.Cliente.ClienteDTO;
-import egservis.Dto.Cliente.ClienteUpdateDTO;
+import egservis.services.models.dto.Cliente.ClienteDTO;
+import egservis.services.models.dto.Cliente.ClienteUpdateDTO;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,10 +24,12 @@ import lombok.NoArgsConstructor;
 public class Cliente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cliente")
     private Long idCliente;
     private String dni;
     private String nombre;
     private String apellido;
+    @Column(name = "num_telefono")
     private String numTelefono;
     private Boolean activo;
 

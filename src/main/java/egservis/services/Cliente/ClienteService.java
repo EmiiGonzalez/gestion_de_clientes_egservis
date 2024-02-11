@@ -3,9 +3,8 @@ package egservis.services.Cliente;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import jakarta.validation.constraints.NotNull;
-
-import egservis.Dto.Cliente.DatosListadoCliente;
-import egservis.models.Cliente;
+import egservis.Entities.Cliente;
+import egservis.services.models.dto.Cliente.DatosListadoCliente;
 
 public interface ClienteService {
 

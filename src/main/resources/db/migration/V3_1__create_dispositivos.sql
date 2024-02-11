@@ -1,5 +1,5 @@
 CREATE TABLE dispositivos (
-    idDispositivo BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_dispositivo BIGINT AUTO_INCREMENT PRIMARY KEY,
     marca VARCHAR(255) NOT NULL,
     modelo VARCHAR(255) NOT NULL,
     procesador VARCHAR(255) NOT NULL,
@@ -8,6 +8,6 @@ CREATE TABLE dispositivos (
     almacenamiento INT NOT NULL,
     pantalla VARCHAR(255) NOT NULL,
     otros VARCHAR(255),
-    idPedido BIGINT NOT NULL, -- Columna para la relación con la tabla pedidos
-    FOREIGN KEY (idPedido) REFERENCES pedidos(idPedido) 
+    id_pedido BIGINT NOT NULL, -- Columna para la relación con la tabla pedidos
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido) 
 );

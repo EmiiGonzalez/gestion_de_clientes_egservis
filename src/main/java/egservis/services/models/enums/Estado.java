@@ -1,4 +1,4 @@
-package egservis.models.enums;
+package egservis.services.models.enums;
 
 public enum Estado {
 

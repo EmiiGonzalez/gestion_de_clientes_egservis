@@ -1,4 +1,4 @@
-package egservis.Controllers;
+package egservis.controllers.v1;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import egservis.Dto.Cliente.ClienteDTO;
-import egservis.Dto.Cliente.ClienteUpdateDTO;
-import egservis.Dto.Cliente.DatosListadoCliente;
-import egservis.models.Cliente;
+import egservis.Entities.Cliente;
 import egservis.services.Cliente.ClienteService;
 import egservis.services.Cliente.ClienteServiceImp;
+import egservis.services.models.dto.Cliente.ClienteDTO;
+import egservis.services.models.dto.Cliente.ClienteUpdateDTO;
+import egservis.services.models.dto.Cliente.DatosListadoCliente;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/v1/clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;
