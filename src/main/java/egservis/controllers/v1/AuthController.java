@@ -16,14 +16,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/login")
+@RequestMapping("/api/v1/auth")
 @AllArgsConstructor
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
     private TokenService tokenService;
     
-    @PostMapping
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.login(), loginDTO.clave());
 

@@ -1,10 +1,8 @@
 package egservis.services.security;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import egservis.Entities.Usuario;
 
@@ -30,7 +30,7 @@ public class TokenService {
                     .withClaim("id", user.getId())
                     .withExpiresAt(getExpirationDate())
                     .sign(algorithm);
-            
+
             return token;
         } catch (JWTCreationException exception) {
             throw new RuntimeException();
@@ -39,5 +39,30 @@ public class TokenService {
 
     private Instant getExpirationDate() {
         return LocalDateTime.now().plusDays(30).toInstant(ZoneOffset.of("-3"));
+    }
+
+    public String getSubject(String token) {
+
+        if (token == null) {
+            throw new RuntimeException("El token no puede ser nulo");
+        }
+
+        DecodedJWT verifier = null;
+
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);        //valida la firma del token
+            verifier = JWT.require(algorithm)   
+                    .withIssuer("egservis")
+                    .build()
+                    .verify(token);
+            verifier.getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("El token es invalido o ha sido alterado", exception);
+        }
+
+        if (verifier.getSubject() == null) {
+            throw new RuntimeException("Verifier invalido");
+        }
+        return verifier.getSubject();
     }
 }
