@@ -1,20 +1,24 @@
-package egservis.services.Cliente;
+package egservis.services.cliente;
+
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import jakarta.validation.constraints.NotNull;
 import egservis.Entities.Cliente;
-import egservis.services.models.dto.Cliente.DatosListadoCliente;
+import egservis.services.models.dto.cliente.ClienteDTO;
+import egservis.services.models.dto.cliente.ClienteUpdateDTO;
+import egservis.services.models.dto.cliente.DatosListadoCliente;
 
 public interface ClienteService {
 
-    Cliente findByDni(String dni);
+    ClienteDTO findByDni(String dni);
 
     void save(@NotNull Cliente cliente);
 
-    void delete(Cliente cliente);
+    Optional<Cliente> deleteLogic(Long id);
 
-    Cliente findById(@NotNull Long id);
+    Optional<ClienteDTO> findById(@NotNull Long id);
 
     void deleteById(Long id);
 
@@ -23,4 +27,6 @@ public interface ClienteService {
     boolean existsById(@NotNull Long id);
 
     Page<DatosListadoCliente> getAll(Pageable pageable);
+
+    Optional<Cliente> update(@NotNull Long id, @NotNull ClienteUpdateDTO clienteUpdateDTO);
 }

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import egservis.services.models.dto.Cliente.ClienteDTO;
-import egservis.services.models.dto.Cliente.ClienteUpdateDTO;
+import egservis.services.models.dto.cliente.ClienteDTO;
+import egservis.services.models.dto.cliente.ClienteUpdateDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

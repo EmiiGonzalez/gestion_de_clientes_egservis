@@ -2,6 +2,7 @@ package egservis.services.models.enums;
 
 public enum Servicio {
     
+    DIAGNOSTICO,
     FORMATEO,
     MANTENIMIENTO,
     REPARACION;

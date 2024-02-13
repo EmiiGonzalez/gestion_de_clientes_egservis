@@ -1,5 +1,7 @@
 package egservis.controllers.v1;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,23 +18,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import egservis.Entities.Cliente;
-import egservis.services.Cliente.ClienteService;
-import egservis.services.Cliente.ClienteServiceImp;
-import egservis.services.models.dto.Cliente.ClienteDTO;
-import egservis.services.models.dto.Cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.Cliente.DatosListadoCliente;
+import egservis.services.cliente.ClienteService;
+import egservis.services.models.PersonalizedMessage;
+import egservis.services.models.dto.cliente.ClienteDTO;
+import egservis.services.models.dto.cliente.ClienteUpdateDTO;
+import egservis.services.models.dto.cliente.DatosListadoCliente;
+import egservis.services.models.dto.response.ResponseMessage;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
+@AllArgsConstructor
 public class ClienteController {
 
     private final ClienteService clienteService;
-
-    public ClienteController(ClienteServiceImp clienteService) {
-        this.clienteService = clienteService;
-    }
+    private PersonalizedMessage personalizedMessage;
 
     @GetMapping(value = "/get", headers = "Accept=application/json")
     public Page<DatosListadoCliente> getAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
@@ -58,41 +60,28 @@ public class ClienteController {
         }
     }
 
-    @PutMapping(value = "/update", headers = "Accept=application/json")
+    @PutMapping(value = "/update/{id}", headers = "Accept=application/json")
     @ResponseBody
     @Transactional
-    public ResponseEntity<?> update(@RequestBody @Valid ClienteUpdateDTO clienteUpdate ) {
-        if (clienteService.existsById(clienteUpdate.id())) {
-            Cliente cliente = clienteService.findById(clienteUpdate.id());
-            cliente.actualizarDatos(clienteUpdate);
-            String mensaje = "Se ha actualizado el cliente con el dni: " + clienteUpdate.dni();
-            return ResponseEntity.status(HttpStatus.OK).body(mensaje);
-        } else {
-            String mensaje = "No existe un cliente con el dni: " + clienteUpdate.dni();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensaje);
+    public ResponseEntity<?> update(@PathVariable() Long id, @RequestBody ClienteUpdateDTO clienteUpdate) {
+        Optional<Cliente> cliente = clienteService.update(id, clienteUpdate);
+        if (!cliente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteNotFound(), 1));
         }
+        return ResponseEntity.status(HttpStatus.OK).body(new ClienteDTO(cliente.get()));
     }
 
     // DELETE LOGIC
     @DeleteMapping(value = "/delete/{id}", headers = "Accept=application/json")
     @ResponseBody
     @Transactional
-    public ResponseEntity<?> delete(@PathVariable() Long id) {
-        if (clienteService.existsById(id)) {
-            Cliente cliente = clienteService.findById(id);
-            if (cliente.getActivo()) {
-                cliente.desactivar();
-                String mensaje = "Se ha eliminado el cliente con el id: " + id;
-                return ResponseEntity.status(HttpStatus.OK).body(mensaje);
-            } else {
-                String mensaje = "El cliente con el id: " + id + " ya no existe";
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensaje);
-            }
-        } else {
-            String mensaje = "No existe un cliente con el id: " + id;
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensaje);
-        }
+    public ResponseEntity<ResponseMessage> deleteLogic(@PathVariable() Long id) {
         
+        Optional<Cliente> cliente = clienteService.deleteLogic(id);
+        if (!cliente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteNotFound(), 1));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteDeleted(), 0));
     }
     
 }

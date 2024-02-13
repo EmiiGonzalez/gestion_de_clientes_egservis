@@ -1,5 +1,6 @@
-package egservis.services.models.dto.Cliente;
+package egservis.services.models.dto.cliente;
 
+import egservis.Entities.Cliente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -16,4 +17,8 @@ public record ClienteDTO(
 
         @NotBlank
         String numTelefono) {
+
+    public ClienteDTO(Cliente cliente) {
+        this(cliente.getDni(), cliente.getNombre(), cliente.getApellido(), cliente.getNumTelefono());
+    }
 }
