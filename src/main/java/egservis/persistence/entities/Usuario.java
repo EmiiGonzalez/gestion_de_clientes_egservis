@@ -1,4 +1,4 @@
-package egservis.Entities;
+package egservis.persistence.entities;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,10 +26,17 @@ import lombok.NoArgsConstructor;
 public class Usuario implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private Long id;
+
     private String login;
     private String clave;
+
+
+    public Usuario(String login, String clave) {
+        this.login = login;
+        this.clave = clave;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

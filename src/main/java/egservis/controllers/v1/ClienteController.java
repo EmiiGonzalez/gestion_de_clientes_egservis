@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import egservis.Entities.Cliente;
+import egservis.persistence.entities.Cliente;
 import egservis.services.cliente.ClienteService;
 import egservis.services.models.PersonalizedMessage;
 import egservis.services.models.dto.cliente.ClienteDTO;

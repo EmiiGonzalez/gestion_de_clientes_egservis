@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import egservis.Entities.Cliente;
-import egservis.repository.ClienteRepository;
+import egservis.persistence.entities.Cliente;
+import egservis.persistence.repository.ClienteRepository;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
 import egservis.services.models.dto.cliente.DatosListadoCliente;

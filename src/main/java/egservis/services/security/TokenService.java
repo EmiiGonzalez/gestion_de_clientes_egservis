@@ -13,7 +13,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import egservis.Entities.Usuario;
+import egservis.persistence.entities.Usuario;
 
 @Service
 public class TokenService {

@@ -1,4 +1,4 @@
-package egservis.repository;
+package egservis.persistence.repository;
 
 
 import java.util.Optional;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import egservis.Entities.Cliente;
+import egservis.persistence.entities.Cliente;
 import egservis.services.models.dto.cliente.ClienteDTO;
 
 @Repository

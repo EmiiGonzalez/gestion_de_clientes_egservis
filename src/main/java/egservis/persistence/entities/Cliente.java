@@ -1,4 +1,4 @@
-package egservis.Entities;
+package egservis.persistence.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;

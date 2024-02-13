@@ -2,7 +2,7 @@ package egservis.services.models.dto.pedido;
 
 import java.time.format.DateTimeFormatter;
 
-import egservis.Entities.Pedido;
+import egservis.persistence.entities.Pedido;
 import lombok.Data;
 
 @Data

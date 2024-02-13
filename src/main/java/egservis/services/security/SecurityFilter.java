@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import egservis.repository.UsuarioRepository;
+import egservis.persistence.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +41,9 @@ public class SecurityFilter extends OncePerRequestFilter {
                 //busco el usuario por db
                 UserDetails usuario = usuarioRepository.findByLogin(nombreUsuario);
                 //genero el token del usuario para authenticar forzando el inicio de session
+
                 Authentication  authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                
 
                 //authentico el usuario y en el contexholder lo seteo manualmente
                 SecurityContextHolder.getContext().setAuthentication(authentication);;

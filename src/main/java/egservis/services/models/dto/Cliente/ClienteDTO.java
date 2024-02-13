@@ -1,6 +1,6 @@
 package egservis.services.models.dto.cliente;
 
-import egservis.Entities.Cliente;
+import egservis.persistence.entities.Cliente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
