@@ -70,7 +70,6 @@ public class ClienteController {
     }
     //GET METHODS END
 
-
     // POST METHOD START
     @PostMapping(value = "/save", headers = "Accept=application/json")
     @ResponseBody

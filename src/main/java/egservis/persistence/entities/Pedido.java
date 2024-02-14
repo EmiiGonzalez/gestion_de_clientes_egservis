@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import egservis.services.models.dto.pedido.PedidoDTO;
 import egservis.services.models.enums.Estado;
 import egservis.services.models.enums.Servicio;
 import jakarta.persistence.Column;
@@ -34,22 +35,31 @@ import lombok.NoArgsConstructor;
 @Table(name = "pedidos")
 @JsonIgnoreProperties({"cliente"})
 public class Pedido implements Serializable{
+    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Column(name = "id_pedido")
     private Long idPedido;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_ingreso")
     private LocalDate fechaIngreso;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_entrega")
     private LocalDate fechaEntrega;
+    
     private BigDecimal presupuesto;
+
     @Enumerated(EnumType.STRING)
     private Estado estado;
+
     @Enumerated(EnumType.STRING)
     private Servicio servicio;
+
+    private boolean activo;
 
     // Relaciones
     @ManyToOne
@@ -59,5 +69,13 @@ public class Pedido implements Serializable{
     @OneToOne(mappedBy = "pedido")
     @JoinColumn(name = "id_dispositivo", referencedColumnName = "id_dispositivo")
     private Dispositivo dispositivo;
+
+    public Pedido(PedidoDTO pedido) {
+        this.activo = true;
+        this.fechaIngreso = LocalDate.now();
+        this.presupuesto = pedido.presupuesto();
+        this.servicio = Servicio.fromString(pedido.servicio());
+        this.estado = Estado.fromString(pedido.estado());
+    }
     
 }

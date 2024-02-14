@@ -75,4 +75,8 @@ public class Cliente implements Serializable{
     public void desactivar() {
         this.activo = false;
     }
+
+    public void activar() {
+        this.activo = true;
+    }
 }

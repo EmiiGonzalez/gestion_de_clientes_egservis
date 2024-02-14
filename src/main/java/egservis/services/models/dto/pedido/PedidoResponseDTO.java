@@ -14,6 +14,8 @@ public class PedidoResponseDTO {
     private BigDecimal presupuesto;
     private String estado;
     private String servicio;
+    private String cliente;
+    private String dni;
 
     public PedidoResponseDTO(Pedido pedido){
         this.id = pedido.getIdPedido();
@@ -22,5 +24,7 @@ public class PedidoResponseDTO {
         this.fechaDeEntrega = pedido.getFechaEntrega() == null ? null : pedido.getFechaEntrega().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.presupuesto = pedido.getPresupuesto();
         this.estado = pedido.getEstado().name();
+        this.cliente = pedido.getCliente().getNombre() + " " + pedido.getCliente().getApellido();
+        this.dni = pedido.getCliente().getDni();
     }
 }

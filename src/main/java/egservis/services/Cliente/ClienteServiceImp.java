@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import egservis.persistence.entities.Cliente;
+import egservis.persistence.entities.Pedido;
 import egservis.persistence.repository.ClienteRepository;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
@@ -90,6 +91,37 @@ public class ClienteServiceImp implements ClienteService {
         cliente.get().actualizarDatos(clienteUpdateDTO);
 
         return cliente;
+    }
+
+    @Override
+    public Optional<Cliente> activate(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException {
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if (!cliente.isPresent()) {
+            throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
+        }
+
+        if (!cliente.get().getActivo()) {
+            throw new ClienteDesactivadoException("El cliente con el id " + id + " ya se encuentra activado");
+        }
+
+        cliente.get().activar();
+
+        return cliente;
+
+    }
+
+    @Override
+    public void addPedido(Pedido pedido, Long id) throws ClienteNoExistenteException {
+
+        Optional<Cliente> c = clienteRepository.findById(id);
+
+        if (!c.isPresent()) {
+            throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
+        }
+
+        c.get().addPedidos(pedido);
     }
 
 }

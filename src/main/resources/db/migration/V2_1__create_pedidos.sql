@@ -6,5 +6,6 @@ CREATE TABLE pedidos (
     estado VARCHAR(255) NOT NULL,
     servicio VARCHAR(255) NOT NULL,
     id_cliente BIGINT NOT NULL, -- Columna para la relación con la tabla clientes
+    activo BOOLEAN NOT NULL DEFAULT true,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente) 
 );
