@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import egservis.persistence.entities.Usuario;
 import egservis.persistence.repository.UsuarioRepository;
 import egservis.services.models.dto.login.RegisterDTO;
-import egservis.services.models.exceptions.UsuarioExistenteException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -25,9 +25,9 @@ public class AuthenticacionServiceImp implements  UserDetailsService {
         return repository.findByLogin(username);
     }
 
-    public Usuario register(RegisterDTO registerDTO) throws UsuarioExistenteException {
+    public Usuario register(RegisterDTO registerDTO) throws ClienteExistenteException {
         if (repository.existsByLogin(registerDTO.login())) {
-            throw new UsuarioExistenteException(
+            throw new ClienteExistenteException(
                 String.format("El usuario ya existe", registerDTO.login()));
         };
 

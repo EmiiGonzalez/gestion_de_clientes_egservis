@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import egservis.persistence.entities.Cliente;
 import egservis.services.models.dto.cliente.ClienteDTO;
+import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
@@ -20,7 +21,11 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     public Boolean existsByDni(String dni);
 
-    public Page<Cliente> findByActivoTrue(Pageable pageable);
+    @Query("SELECT new egservis.services.models.dto.cliente.DatosListadoClienteDTO(c) FROM Cliente c WHERE c.activo=true")
+    public Page<DatosListadoClienteDTO> findAllByActivoTrue(Pageable pageable);
+
+    @Query("SELECT new egservis.services.models.dto.cliente.DatosListadoClienteDTO(c) FROM Cliente c")
+    public Page<DatosListadoClienteDTO> findAllPage(Pageable pageable);
 
     @Query("SELECT new egservis.services.models.dto.cliente.ClienteDTO(c) FROM Cliente c WHERE c.id=?1")
     public Optional<ClienteDTO> findByIdDTO(Long id);

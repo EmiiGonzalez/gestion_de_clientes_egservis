@@ -18,4 +18,12 @@ public class PersonalizedMessage {
     public String clienteDeleted() {
         return messageSource.getMessage("client.delete.success", null, null);
     }
+
+    public String clienteAlreadyExists() {
+        return messageSource.getMessage("client.already.exists", null, null);
+    }
+
+    public String clienteAlreadyDisabled() {
+        return messageSource.getMessage("client.already.disabled", null, null);
+    }
 }

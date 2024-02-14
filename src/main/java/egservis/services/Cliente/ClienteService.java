@@ -8,25 +8,24 @@ import jakarta.validation.constraints.NotNull;
 import egservis.persistence.entities.Cliente;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.DatosListadoCliente;
+import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
+import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
 
 public interface ClienteService {
 
-    ClienteDTO findByDni(String dni);
+    ClienteDTO save(ClienteDTO cliente) throws ClienteExistenteException;
 
-    void save(@NotNull Cliente cliente);
+    String deleteLogic(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException;
 
-    Optional<Cliente> deleteLogic(Long id);
+    Page<DatosListadoClienteDTO> getAllActive(Pageable pageable);
 
-    Optional<ClienteDTO> findById(@NotNull Long id);
+    Page<DatosListadoClienteDTO> getAll(Pageable pageable);
 
-    void deleteById(Long id);
+    ClienteDTO findByDni(String dni) throws ClienteNoExistenteException;
 
-    boolean existsByDni(String dni);
+    ClienteDTO getById(@NotNull Long id) throws ClienteNoExistenteException;
 
-    boolean existsById(@NotNull Long id);
-
-    Page<DatosListadoCliente> getAll(Pageable pageable);
-
-    Optional<Cliente> update(@NotNull Long id, @NotNull ClienteUpdateDTO clienteUpdateDTO);
+    Optional<Cliente> update(@NotNull Long id, @NotNull ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException;
 }

@@ -14,7 +14,7 @@ import egservis.persistence.entities.Usuario;
 import egservis.services.models.dto.login.LoginDTO;
 import egservis.services.models.dto.login.RegisterDTO;
 import egservis.services.models.dto.login.TokenDTO;
-import egservis.services.models.exceptions.UsuarioExistenteException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
 import egservis.services.security.TokenService;
 import egservis.services.usuario.AuthenticacionServiceImp;
 import jakarta.validation.Valid;
@@ -43,7 +43,7 @@ public class AuthController {
 
     @PostMapping(value = "/register", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO registerDTO) throws UsuarioExistenteException {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO registerDTO) throws ClienteExistenteException {
         Usuario usuario = authenticationService.register(registerDTO);
         String tokenJWT = tokenService.generateToken(usuario);
         return ResponseEntity.ok().body(new TokenDTO(tokenJWT));

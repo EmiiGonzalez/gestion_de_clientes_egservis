@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +23,11 @@ import egservis.services.cliente.ClienteService;
 import egservis.services.models.PersonalizedMessage;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.DatosListadoCliente;
+import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
 import egservis.services.models.dto.response.ResponseMessage;
-import jakarta.transaction.Transactional;
+import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -34,54 +37,69 @@ import lombok.AllArgsConstructor;
 public class ClienteController {
 
     private final ClienteService clienteService;
-    private PersonalizedMessage personalizedMessage;
+    private final PersonalizedMessage personalizedMessage;
 
+    //GET METHODS START
+    @Transactional(readOnly = true)
     @GetMapping(value = "/get", headers = "Accept=application/json")
-    public Page<DatosListadoCliente> getAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+    @ResponseBody
+    public Page<DatosListadoClienteDTO> getAllActive(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+        return clienteService.getAllActive(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping(value = "/get/all", headers = "Accept=application/json")
+    @ResponseBody
+    public Page<DatosListadoClienteDTO> getAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return clienteService.getAll(pageable);
     }
 
-    @PostMapping(value = "/save", headers = "Accept=application/json")
+    @Transactional(readOnly = true)
+    @GetMapping(value = "/get/dni/{dni}", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<?> save(@RequestBody @Valid ClienteDTO clienteDTO) {
-        try {
-            if (clienteService.existsByDni(clienteDTO.dni())) {
-            String mensaje = "Ya existe un cliente con el dni: " + clienteDTO.dni();
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(mensaje);
-        } else {
-            Cliente cliente = new Cliente(clienteDTO);
-            clienteService.save(cliente);
-            String mensaje = "Se ha guardado el cliente con el dni: " + clienteDTO.dni();
-            return ResponseEntity.status(HttpStatus.CREATED).body(mensaje);
-        }
-        } catch (Exception e) {
-            String mensaje = "Hubo un error al procesar la petición" + e.getMessage();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
-        }
+    public ResponseEntity<ClienteDTO> getByDni(@PathVariable() String dni) throws ClienteNoExistenteException {
+        ClienteDTO cliente = clienteService.findByDni(dni);
+        return ResponseEntity.status(HttpStatus.OK).body(cliente);
     }
 
+    @GetMapping(value = "/get/id/{id}", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<ClienteDTO> getById(@PathVariable() Long id) throws ClienteNoExistenteException {
+        ClienteDTO cliente = clienteService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(cliente);
+    }
+    //GET METHODS END
+
+
+    // POST METHOD START
+    @PostMapping(value = "/save", headers = "Accept=application/json")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<?> save(@RequestBody @Valid ClienteDTO clienteDTO) throws ClienteExistenteException {
+        ClienteDTO cliente = clienteService.save(clienteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
+    }
+    // POST METHOD END
+
+    // PUT METHOD START
     @PutMapping(value = "/update/{id}", headers = "Accept=application/json")
     @ResponseBody
     @Transactional
-    public ResponseEntity<?> update(@PathVariable() Long id, @RequestBody ClienteUpdateDTO clienteUpdate) {
+    public ResponseEntity<ClienteDTO> update(@PathVariable() Long id, @RequestBody ClienteUpdateDTO clienteUpdate) throws ClienteNoExistenteException {
         Optional<Cliente> cliente = clienteService.update(id, clienteUpdate);
-        if (!cliente.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteNotFound(), 1));
-        }
         return ResponseEntity.status(HttpStatus.OK).body(new ClienteDTO(cliente.get()));
     }
+    // PUT METHOD END
 
-    // DELETE LOGIC
+    // DELETE LOGIC METHOD START
     @DeleteMapping(value = "/delete/{id}", headers = "Accept=application/json")
     @ResponseBody
     @Transactional
-    public ResponseEntity<ResponseMessage> deleteLogic(@PathVariable() Long id) {
-        
-        Optional<Cliente> cliente = clienteService.deleteLogic(id);
-        if (!cliente.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteNotFound(), 1));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteDeleted(), 0));
+    public ResponseEntity<ResponseMessage> deleteLogic(@PathVariable() Long id) throws ClienteNoExistenteException, ClienteDesactivadoException {
+        String dni = clienteService.deleteLogic(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(personalizedMessage.clienteDeleted().replace("$", dni), 0));
     }
+
+    // DELETE LOGIC METHOD END
     
 }

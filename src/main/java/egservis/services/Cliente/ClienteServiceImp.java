@@ -5,72 +5,91 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import egservis.persistence.entities.Cliente;
 import egservis.persistence.repository.ClienteRepository;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.DatosListadoCliente;
+import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
+import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
+import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ClienteServiceImp implements ClienteService{
-    
+public class ClienteServiceImp implements ClienteService {
+
     private final ClienteRepository clienteRepository;
 
-    public ClienteDTO findByDni(String dni) {
-        return clienteRepository.findByDni(dni).orElse(null);
-    }
-
-    public void save(@NotNull Cliente cliente) {
-        clienteRepository.save(cliente);
+    @Override
+    public ClienteDTO findByDni(String dni) throws ClienteNoExistenteException {
+        Optional<ClienteDTO> c = clienteRepository.findByDni(dni);
+        if (!c.isPresent()) {
+            throw new ClienteNoExistenteException("El cliente con el dni " + dni + " no existe");
+        }
+        return c.get();
     }
 
     @Override
-    public Optional<Cliente> deleteLogic(Long id) {
+    public ClienteDTO getById(@NotNull Long id) throws ClienteNoExistenteException {
+        Optional<ClienteDTO> c = clienteRepository.findByIdDTO(id);
+        if (!c.isPresent()) {
+            throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
+        }
+        return c.get();
+    }
+
+    @Override
+    public ClienteDTO save(@NotNull ClienteDTO cliente) throws ClienteExistenteException {
+        if (clienteRepository.existsByDni(cliente.dni())) {
+            throw new ClienteExistenteException("Ya existe un cliente con el DNI " + cliente.dni());
+        }
+        Cliente c = new Cliente(cliente);
+        return new ClienteDTO(clienteRepository.save(c));
+    }
+
+    @Override
+    public Page<DatosListadoClienteDTO> getAllActive(Pageable pageable) {
+        return clienteRepository.findAllByActivoTrue(pageable);
+    }
+
+    @Override
+    public Page<DatosListadoClienteDTO> getAll(Pageable pageable) {
+        return clienteRepository.findAllPage(pageable);
+    }
+
+    @Override
+    public String deleteLogic(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException {
 
         Optional<Cliente> c = clienteRepository.findById(id);
 
-        c.ifPresent(c1 -> {
-            c1.desactivar();
-        });
+        if (!c.isPresent()) {
+            throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
+        }
 
-        return c;
-        
-    }
+        if (!c.get().getActivo()) {
+            throw new ClienteDesactivadoException("El cliente con el id " + id + " ya se encuentra desactivado");
+        }
 
-    public Optional<ClienteDTO> findById(@NotNull Long id) {
-        return clienteRepository.findByIdDTO(id);
-    }
+        c.get().desactivar();
 
-    public void deleteById(Long id) {
-        clienteRepository.deleteById(id);
-    }
-
-    public boolean existsByDni(String dni) {
-        return clienteRepository.existsByDni(dni);
-    }
-
-    public boolean existsById(@NotNull Long id) {
-        return clienteRepository.existsById(id);
-    }
-
-    public Page<DatosListadoCliente> getAll(Pageable pageable) {
-        //return clienteRepository.findAll(pageable).map(DatosListadoCliente::new);
-        return clienteRepository.findByActivoTrue(pageable).map(DatosListadoCliente::new);
+        return c.get().getDni();
     }
 
     @Override
-    @Transactional
-    public Optional<Cliente> update(Long id, ClienteUpdateDTO clienteUpdateDTO) {
+    public Optional<Cliente> update(Long id, ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException {
 
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
-        cliente.ifPresent(c -> c.actualizarDatos(clienteUpdateDTO));
+        if (!cliente.isPresent()) {
+            throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
+        }
+
+        cliente.get().actualizarDatos(clienteUpdateDTO);
 
         return cliente;
     }
+
 }
