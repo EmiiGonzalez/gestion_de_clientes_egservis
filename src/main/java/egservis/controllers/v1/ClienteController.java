@@ -23,7 +23,7 @@ import egservis.services.cliente.ClienteService;
 import egservis.services.models.PersonalizedMessage;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
+import egservis.services.models.dto.cliente.ClienteResponseDTO;
 import egservis.services.models.dto.response.ResponseMessage;
 import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
@@ -43,29 +43,29 @@ public class ClienteController {
     @Transactional(readOnly = true)
     @GetMapping(value = "/get", headers = "Accept=application/json")
     @ResponseBody
-    public Page<DatosListadoClienteDTO> getAllActive(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+    public Page<ClienteResponseDTO> getAllActive(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return clienteService.getAllActive(pageable);
     }
 
     @Transactional(readOnly = true)
     @GetMapping(value = "/get/all", headers = "Accept=application/json")
     @ResponseBody
-    public Page<DatosListadoClienteDTO> getAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+    public Page<ClienteResponseDTO> getAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return clienteService.getAll(pageable);
     }
 
     @Transactional(readOnly = true)
     @GetMapping(value = "/get/dni/{dni}", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<ClienteDTO> getByDni(@PathVariable() String dni) throws ClienteNoExistenteException {
-        ClienteDTO cliente = clienteService.findByDni(dni);
+    public ResponseEntity<ClienteResponseDTO> getByDni(@PathVariable() String dni) throws ClienteNoExistenteException {
+        ClienteResponseDTO cliente = clienteService.findByDni(dni);
         return ResponseEntity.status(HttpStatus.OK).body(cliente);
     }
 
     @GetMapping(value = "/get/id/{id}", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<ClienteDTO> getById(@PathVariable() Long id) throws ClienteNoExistenteException {
-        ClienteDTO cliente = clienteService.getById(id);
+    public ResponseEntity<ClienteResponseDTO> getById(@PathVariable() Long id) throws ClienteNoExistenteException {
+        ClienteResponseDTO cliente = clienteService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(cliente);
     }
     //GET METHODS END

@@ -11,7 +11,7 @@ import egservis.persistence.entities.Pedido;
 import egservis.persistence.repository.ClienteRepository;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
+import egservis.services.models.dto.cliente.ClienteResponseDTO;
 import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
@@ -25,8 +25,8 @@ public class ClienteServiceImp implements ClienteService {
     private final ClienteRepository clienteRepository;
 
     @Override
-    public ClienteDTO findByDni(String dni) throws ClienteNoExistenteException {
-        Optional<ClienteDTO> c = clienteRepository.findByDni(dni);
+    public ClienteResponseDTO findByDni(String dni) throws ClienteNoExistenteException {
+        Optional<ClienteResponseDTO> c = clienteRepository.findByDni(dni);
         if (!c.isPresent()) {
             throw new ClienteNoExistenteException("El cliente con el dni " + dni + " no existe");
         }
@@ -34,8 +34,8 @@ public class ClienteServiceImp implements ClienteService {
     }
 
     @Override
-    public ClienteDTO getById(@NotNull Long id) throws ClienteNoExistenteException {
-        Optional<ClienteDTO> c = clienteRepository.findByIdDTO(id);
+    public ClienteResponseDTO getById(@NotNull Long id) throws ClienteNoExistenteException {
+        Optional<ClienteResponseDTO> c = clienteRepository.findByIdDTO(id);
         if (!c.isPresent()) {
             throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
         }
@@ -52,12 +52,12 @@ public class ClienteServiceImp implements ClienteService {
     }
 
     @Override
-    public Page<DatosListadoClienteDTO> getAllActive(Pageable pageable) {
+    public Page<ClienteResponseDTO> getAllActive(Pageable pageable) {
         return clienteRepository.findAllByActivoTrue(pageable);
     }
 
     @Override
-    public Page<DatosListadoClienteDTO> getAll(Pageable pageable) {
+    public Page<ClienteResponseDTO> getAll(Pageable pageable) {
         return clienteRepository.findAllPage(pageable);
     }
 

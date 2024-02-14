@@ -3,12 +3,13 @@ package egservis.services.models.dto.pedido;
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record PedidoDTO(
-    @NotBlank
+    @NotNull
     Long idCliente,
-    @NotBlank
+    @NotNull
     BigDecimal presupuesto,
     @NotBlank
     @Pattern(regexp = "INGRESADO|EN_PROCESO|FINALIZADO|CANCELADO", message = "El campo estado debe ser uno de: INGRESADO, EN_PROCESO, FINALIZADO, CANCELADO")

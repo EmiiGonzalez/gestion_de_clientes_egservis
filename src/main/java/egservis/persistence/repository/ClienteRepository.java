@@ -10,24 +10,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import egservis.persistence.entities.Cliente;
-import egservis.services.models.dto.cliente.ClienteDTO;
-import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
+import egservis.services.models.dto.cliente.ClienteResponseDTO;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query("SELECT new egservis.services.models.dto.cliente.ClienteDTO(c) FROM Cliente c WHERE c.dni=?1")
-    public Optional<ClienteDTO> findByDni(String dni);
+    @Query("SELECT new egservis.services.models.dto.cliente.ClienteResponseDTO(c) FROM Cliente c WHERE c.dni=?1")
+    public Optional<ClienteResponseDTO> findByDni(String dni);
 
     public Boolean existsByDni(String dni);
 
-    @Query("SELECT new egservis.services.models.dto.cliente.DatosListadoClienteDTO(c) FROM Cliente c WHERE c.activo=true")
-    public Page<DatosListadoClienteDTO> findAllByActivoTrue(Pageable pageable);
+    @Query("SELECT new egservis.services.models.dto.cliente.ClienteResponseDTO(c) FROM Cliente c WHERE c.activo=true")
+    public Page<ClienteResponseDTO> findAllByActivoTrue(Pageable pageable);
 
-    @Query("SELECT new egservis.services.models.dto.cliente.DatosListadoClienteDTO(c) FROM Cliente c")
-    public Page<DatosListadoClienteDTO> findAllPage(Pageable pageable);
+    @Query("SELECT new egservis.services.models.dto.cliente.ClienteResponseDTO(c) FROM Cliente c")
+    public Page<ClienteResponseDTO> findAllPage(Pageable pageable);
 
-    @Query("SELECT new egservis.services.models.dto.cliente.ClienteDTO(c) FROM Cliente c WHERE c.id=?1")
-    public Optional<ClienteDTO> findByIdDTO(Long id);
+    @Query("SELECT new egservis.services.models.dto.cliente.ClienteResponseDTO(c) FROM Cliente c WHERE c.id=?1")
+    public Optional<ClienteResponseDTO> findByIdDTO(Long id);
 
 }

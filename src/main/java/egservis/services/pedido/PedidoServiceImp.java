@@ -1,24 +1,19 @@
 package egservis.services.pedido;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import egservis.persistence.entities.Cliente;
 import egservis.persistence.entities.Pedido;
 import egservis.persistence.repository.PedidoRepository;
 import egservis.services.cliente.ClienteServiceImp;
-import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.pedido.PedidoDTO;
 import egservis.services.models.dto.pedido.PedidoListDto;
 import egservis.services.models.dto.pedido.PedidoResponseDTO;
-import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoNoExisteException;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 
 @Service

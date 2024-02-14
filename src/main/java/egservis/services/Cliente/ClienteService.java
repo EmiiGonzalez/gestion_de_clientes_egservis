@@ -9,7 +9,7 @@ import egservis.persistence.entities.Cliente;
 import egservis.persistence.entities.Pedido;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.DatosListadoClienteDTO;
+import egservis.services.models.dto.cliente.ClienteResponseDTO;
 import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
@@ -20,13 +20,13 @@ public interface ClienteService {
 
     String deleteLogic(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException;
 
-    Page<DatosListadoClienteDTO> getAllActive(Pageable pageable);
+    Page<ClienteResponseDTO> getAllActive(Pageable pageable);
 
-    Page<DatosListadoClienteDTO> getAll(Pageable pageable);
+    Page<ClienteResponseDTO> getAll(Pageable pageable);
 
-    ClienteDTO findByDni(String dni) throws ClienteNoExistenteException;
+    ClienteResponseDTO findByDni(String dni) throws ClienteNoExistenteException;
 
-    ClienteDTO getById(@NotNull Long id) throws ClienteNoExistenteException;
+    ClienteResponseDTO getById(@NotNull Long id) throws ClienteNoExistenteException;
 
     Optional<Cliente> update(@NotNull Long id, @NotNull ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException;
 
