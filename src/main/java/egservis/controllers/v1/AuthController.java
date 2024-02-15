@@ -1,5 +1,6 @@
 package egservis.controllers.v1;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,6 +47,6 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO registerDTO) throws ClienteExistenteException {
         Usuario usuario = authenticationService.register(registerDTO);
         String tokenJWT = tokenService.generateToken(usuario);
-        return ResponseEntity.ok().body(new TokenDTO(tokenJWT));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new TokenDTO(tokenJWT));
     }
 }

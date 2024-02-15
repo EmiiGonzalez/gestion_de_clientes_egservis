@@ -4,4 +4,5 @@ public record ResponseMessage(
     String message,
     Integer errorCode
 ) {
+
 } 

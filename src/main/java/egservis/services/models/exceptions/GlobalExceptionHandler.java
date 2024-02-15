@@ -1,8 +1,7 @@
 package egservis.services.models.exceptions;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,16 +26,21 @@ public class GlobalExceptionHandler  {
 
     private PersonalizedMessage personalizedMessage;
 
+    // VALIDATION EXCEPTIONS DTOS START
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> validationError(MethodArgumentNotValidException e) {
+    public ResponseEntity<List<ResponseMessage>> validationError(MethodArgumentNotValidException e) {
         System.out.println(e);
-        Map<String, String> errors = new HashMap<>();
+
+        List<ResponseMessage> errorsList = new ArrayList<>();
         e.getFieldErrors().stream().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
+            ResponseMessage responseMessage = new ResponseMessage(error.getDefaultMessage(), 7);
+            errorsList.add(responseMessage);
         });
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorsList);
     }
+
+    // VALIDATION EXCEPTIONS DTOS END
 
     // CLIENTE EXCEPTIONS START
     
