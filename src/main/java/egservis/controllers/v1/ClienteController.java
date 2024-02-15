@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import egservis.persistence.entities.Cliente;
 import egservis.services.cliente.ClienteService;
 import egservis.services.models.PersonalizedMessage;
 import egservis.services.models.dto.cliente.ClienteDTO;
@@ -85,8 +84,8 @@ public class ClienteController {
     @ResponseBody
     @Transactional
     public ResponseEntity<ClienteDTO> update(@PathVariable() Long id, @RequestBody ClienteUpdateDTO clienteUpdate) throws ClienteNoExistenteException {
-        Optional<Cliente> cliente = clienteService.update(id, clienteUpdate);
-        return ResponseEntity.status(HttpStatus.OK).body(new ClienteDTO(cliente.get()));
+        ClienteDTO cliente = clienteService.update(id, clienteUpdate);
+        return ResponseEntity.status(HttpStatus.OK).body(cliente);
     }
     // PUT METHOD END
 

@@ -1,22 +1,23 @@
 package egservis.services.models.dto.cliente;
 
+
 import egservis.persistence.entities.Cliente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record ClienteDTO(
 
-        @NotBlank    
-        @Pattern(regexp = "^[0-9]{7,8}$", message = "El DNI debe tener entre 7 y 8 dígitos.")
+        @NotBlank(message = "{dni.not.blank}")
+        @Pattern(regexp = "^[0-9]{7,8}$", message = "{dni.pattern}")
         String dni,
 
-        @NotBlank
+        @NotBlank(message = "{nombre.not.blank}")
         String nombre,
 
-        @NotBlank
+        @NotBlank(message = "{apellido.not.blank}")
         String apellido,
 
-        @NotBlank
+        @NotBlank(message = "{numTelefono.not.blank}")
         String numTelefono) {
 
     public ClienteDTO(Cliente cliente) {

@@ -7,16 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record PedidoDTO(
-    @NotNull
+    @NotNull(message = "{idCliente.not.null}")
     Long idCliente,
-    @NotNull
+
+    @NotNull(message = "{presupuesto.not.null}")
     BigDecimal presupuesto,
-    @NotBlank
-    @Pattern(regexp = "INGRESADO|EN_PROCESO|FINALIZADO|CANCELADO", message = "El campo estado debe ser uno de: INGRESADO, EN_PROCESO, FINALIZADO, CANCELADO")
-    String estado,
-    @NotBlank
+
+    @NotBlank(message = "{servicio.not.blank}")
     @Pattern(regexp = "DIAGNOSTICO|FORMATEO|MANTENIMIENTO|REPARACION",
-            message = "El campo servicio debe ser uno de: DIAGNOSTICO, FORMATEO, MANTENIMIENTO, REPARACION")
+            message = "{servicio.pattern}")
     String servicio
 ) {
 }

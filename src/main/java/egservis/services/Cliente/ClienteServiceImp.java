@@ -80,7 +80,7 @@ public class ClienteServiceImp implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> update(Long id, ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException {
+    public ClienteDTO update(Long id, ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException {
 
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
@@ -90,7 +90,7 @@ public class ClienteServiceImp implements ClienteService {
 
         cliente.get().actualizarDatos(clienteUpdateDTO);
 
-        return cliente;
+        return new ClienteDTO(cliente.get());
     }
 
     @Override

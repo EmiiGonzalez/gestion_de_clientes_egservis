@@ -28,7 +28,7 @@ public interface ClienteService {
 
     ClienteResponseDTO getById(@NotNull Long id) throws ClienteNoExistenteException;
 
-    Optional<Cliente> update(@NotNull Long id, @NotNull ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException;
+    ClienteDTO update(@NotNull Long id, @NotNull ClienteUpdateDTO clienteUpdateDTO) throws ClienteNoExistenteException;
 
     Optional<Cliente> activate(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException;
 
