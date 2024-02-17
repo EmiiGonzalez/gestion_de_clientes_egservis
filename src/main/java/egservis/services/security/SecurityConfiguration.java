@@ -40,7 +40,7 @@ public class SecurityConfiguration {
 
     }
 
-    // Este metodo es para que spring sepa que se va a usar el AuthenticationManager
+    // Este metodo es para que spring sepa que se va a usar el AuthenticationManager y tener una instancia del mismo en todo el proyecto
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
