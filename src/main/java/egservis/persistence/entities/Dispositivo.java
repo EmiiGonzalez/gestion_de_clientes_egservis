@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,4 +42,31 @@ public class Dispositivo implements Serializable{
     @OneToOne
     @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
     private Pedido pedido;
+
+    public void actualizarDatos(DispositivoUpdateDTO dispositivoUpdate) {
+        if (dispositivoUpdate.marca() != null && !dispositivoUpdate.marca().isEmpty()) {
+            this.marca = dispositivoUpdate.marca();
+        }
+        if (dispositivoUpdate.modelo() != null && !dispositivoUpdate.modelo().isEmpty()) {
+            this.modelo = dispositivoUpdate.modelo();
+        }
+        if (dispositivoUpdate.procesador() != null && !dispositivoUpdate.procesador().isEmpty()) {
+            this.procesador = dispositivoUpdate.procesador();
+        }
+        if (dispositivoUpdate.so() != null && !dispositivoUpdate.so().isEmpty()) {
+            this.so = dispositivoUpdate.so();
+        }
+        if (dispositivoUpdate.ram() != null && dispositivoUpdate.ram() > 0) {
+            this.ram = dispositivoUpdate.ram();
+        }
+        if (dispositivoUpdate.almacenamiento() != null && dispositivoUpdate.almacenamiento() > 0) {
+            this.almacenamiento = dispositivoUpdate.almacenamiento();
+        }
+        if (dispositivoUpdate.pantalla() != null && !dispositivoUpdate.pantalla().isEmpty()) {
+            this.pantalla = dispositivoUpdate.pantalla();
+        }
+        if (dispositivoUpdate.otros() != null && !dispositivoUpdate.otros().isEmpty()) {
+            this.otros = dispositivoUpdate.otros();
+        }
+    }
 }
