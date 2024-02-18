@@ -1,36 +1,54 @@
 package egservis.services.dispositivo;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import egservis.services.models.dto.dispositivo.DispositivoDTO;
+import egservis.persistence.entities.Dispositivo;
+import egservis.persistence.repository.DispositivoRepository;
 import egservis.services.models.dto.dispositivo.DispositivoResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
+import egservis.services.models.exceptions.dispositivoExceptions.DispositivoNoExisteException;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class DispositivoServiceImp implements DispositivoService{
 
-    @Override
-    public DispositivoResponseDTO save(DispositivoDTO dispositivoDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
-    }
+    private final DispositivoRepository dispositivoRepository;
 
     @Override
     public Page<DispositivoResponseDTO> getAll(Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        Page<DispositivoResponseDTO> page = dispositivoRepository.findAllPage(pageable);
+        return page;
     }
 
     @Override
-    public DispositivoResponseDTO getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+    public DispositivoResponseDTO getById(Long id) throws DispositivoNoExisteException {
+        Optional<DispositivoResponseDTO> dispositivo = dispositivoRepository.findByIdDTO(id);
+        if (!dispositivo.isPresent()) {
+            throw new DispositivoNoExisteException("El dispositivo con el id " + id + " no existe");
+        } 
+
+        return dispositivo.get();
+        
     }
 
     @Override
-    public DispositivoResponseDTO update(Long id, DispositivoUpdateDTO dispositivoDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public DispositivoResponseDTO update(Long id, DispositivoUpdateDTO dispositivoDTO) throws DispositivoNoExisteException {
+        Optional <Dispositivo> dispositivo = dispositivoRepository.findById(id);
+
+        if (!dispositivo.isPresent()) {
+            throw new DispositivoNoExisteException("El dispositivo con el id " + id + " no existe");
+        }
+        dispositivo.get().actualizarDatos(dispositivoDTO);
+        return new DispositivoResponseDTO(dispositivo.get());
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Dispositivo> dispositivo = dispositivoRepository.findById(id);
+        dispositivo.ifPresent(dispositivoRepository::delete);
     }
     
 }

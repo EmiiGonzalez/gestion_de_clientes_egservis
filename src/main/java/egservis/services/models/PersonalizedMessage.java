@@ -55,4 +55,8 @@ public class PersonalizedMessage {
     public String pedidoDateIngresoInvalid() {
         return messageSource.getMessage("pedido.date.ingreso.invalid", null, null);
     }
+
+    public String dispositivoDeleted() {
+        return messageSource.getMessage("dispositivo.delete.success", null, null);
+    }
 }
