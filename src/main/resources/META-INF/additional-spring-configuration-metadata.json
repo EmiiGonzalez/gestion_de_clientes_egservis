@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "api.security.secret",
+  "type": "java.lang.String",
+  "description": "Secret para la generacion del token"
+}]}

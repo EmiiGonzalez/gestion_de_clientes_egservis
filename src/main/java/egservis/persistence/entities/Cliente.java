@@ -15,12 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "clientes")
 @Data
-@NoArgsConstructor
 public class Cliente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,16 +30,17 @@ public class Cliente implements Serializable{
     @Column(name = "num_telefono")
     private String numTelefono;
     private Boolean activo;
-
+   
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
-    private List<Pedido> pedidos = new ArrayList<>(); 
-
+    private List<Dispositivo> dispositivos; 
+    
     public Cliente(String dni, String nombre, String apellido, String numTelefono) {
         this.activo = true;
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.numTelefono = numTelefono;
+        this.dispositivos = new ArrayList<>();
     }
 
     public Cliente(ClienteDTO clienteDTO) {
@@ -50,11 +49,16 @@ public class Cliente implements Serializable{
         this.nombre = clienteDTO.nombre();
         this.apellido = clienteDTO.apellido();
         this.numTelefono = clienteDTO.numTelefono();
+        this.dispositivos = new ArrayList<>();
     }
 
-    public void addPedidos(Pedido pedido) {
-        pedidos.add(pedido);
-        pedido.setCliente(this);
+    public Cliente(){
+        this.dispositivos = new ArrayList<>();
+    }
+
+    public void addDispositivo(Dispositivo dispositivo) {
+        this.dispositivos.add(dispositivo);
+        dispositivo.setCliente(this);
     }
 
     public void actualizarDatos(ClienteUpdateDTO clienteUpdate) {

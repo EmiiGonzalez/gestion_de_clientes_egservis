@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 
 import egservis.persistence.entities.Pedido;
 import egservis.persistence.repository.PedidoRepository;
-import egservis.services.cliente.ClienteServiceImp;
+import egservis.services.dispositivo.DispositivoServiceImp;
 import egservis.services.models.dto.pedido.PedidoDTO;
 import egservis.services.models.dto.pedido.PedidoListDto;
 import egservis.services.models.dto.pedido.PedidoResponseDTO;
 import egservis.services.models.dto.pedido.PedidoUpdateDTO;
 import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
+import egservis.services.models.exceptions.dispositivoExceptions.DispositivoNoExisteException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoDesactivadoException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoFechaEntregaInvalidaException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoFechaIngresoInvalidaException;
@@ -26,7 +27,7 @@ import lombok.AllArgsConstructor;
 public class PedidoServiceImp implements PedidoService {
 
     private PedidoRepository pedidoRepository;
-    private ClienteServiceImp clienteService;
+    private DispositivoServiceImp dispositivoService;
 
     @Override
     public PedidoResponseDTO obtenerPedido(Long id) throws PedidoNoExisteException {
@@ -45,10 +46,10 @@ public class PedidoServiceImp implements PedidoService {
     }
 
     @Override
-    public PedidoResponseDTO save(PedidoDTO pedido) throws ClienteNoExistenteException {
+    public PedidoResponseDTO save(PedidoDTO pedido) throws ClienteNoExistenteException, DispositivoNoExisteException {
         Pedido p = new Pedido(pedido);
 
-        clienteService.addPedido(p, pedido.idCliente());
+        dispositivoService.addPedido(p, pedido.idDispositivo());
 
         return new PedidoResponseDTO(pedidoRepository.save(p));
     }
@@ -79,5 +80,4 @@ public class PedidoServiceImp implements PedidoService {
         
         return new PedidoResponseDTO(p.get());
     }
-
 }

@@ -24,7 +24,7 @@ public class PedidoResponseDTO {
         this.fechaDeEntrega = pedido.getFechaEntrega() == null ? null : pedido.getFechaEntrega().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.presupuesto = pedido.getPresupuesto();
         this.estado = pedido.getEstado().name();
-        this.cliente = pedido.getCliente().getNombre() + " " + pedido.getCliente().getApellido();
-        this.dni = pedido.getCliente().getDni();
+        this.cliente = pedido.getDispositivo().getCliente().getNombre() + " " + pedido.getDispositivo().getCliente().getApellido();
+        this.dni = pedido.getDispositivo().getCliente().getDni();
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import jakarta.validation.constraints.NotNull;
 import egservis.persistence.entities.Cliente;
-import egservis.persistence.entities.Pedido;
+import egservis.persistence.entities.Dispositivo;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
 import egservis.services.models.dto.cliente.ClienteResponseDTO;
@@ -32,5 +32,5 @@ public interface ClienteService {
 
     Optional<Cliente> activate(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException;
 
-    void addPedido(Pedido pedido, Long id) throws ClienteNoExistenteException;
+    void addDispositivo(Dispositivo dispositivo, Long id) throws ClienteNoExistenteException;
 }

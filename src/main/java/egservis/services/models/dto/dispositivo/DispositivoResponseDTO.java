@@ -4,6 +4,8 @@ import egservis.persistence.entities.Dispositivo;
 
 public record DispositivoResponseDTO(
     Long id,
+    String propietario,
+    String dni,
     String marca,
     String modelo,
     String procesador,
@@ -15,9 +17,9 @@ public record DispositivoResponseDTO(
 ) {
 
     public DispositivoResponseDTO(Dispositivo dispositivo) {
-        this(dispositivo.getIdDispositivo(), dispositivo.getMarca(), dispositivo.getModelo(),
-                dispositivo.getProcesador(), dispositivo.getSo(), dispositivo.getRam(),
-                dispositivo.getAlmacenamiento(), dispositivo.getPantalla(), dispositivo.getOtros());
+        this(dispositivo.getIdDispositivo(),dispositivo.getCliente().getNombre() + " " + dispositivo.getCliente().getApellido(), dispositivo.getCliente().getDni() , dispositivo.getMarca(), dispositivo.getModelo(),
+        dispositivo.getProcesador(), dispositivo.getSo(), dispositivo.getRam(),
+        dispositivo.getAlmacenamiento(), dispositivo.getPantalla(), dispositivo.getOtros());
     }
     
 }

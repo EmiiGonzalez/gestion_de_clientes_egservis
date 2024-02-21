@@ -2,15 +2,17 @@ package egservis.services.dispositivo;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
+import egservis.services.models.dto.dispositivo.DispositivoDTO;
 import egservis.services.models.dto.dispositivo.DispositivoResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
+import egservis.services.models.dto.pedido.PedidoCompleteDTO;
+import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
 import egservis.services.models.exceptions.dispositivoExceptions.DispositivoNoExisteException;
+import jakarta.validation.Valid;
 
-@Service
+
 public interface DispositivoService {
-
 
     Page<DispositivoResponseDTO> getAll(Pageable pageable);
 
@@ -19,5 +21,13 @@ public interface DispositivoService {
     DispositivoResponseDTO update(Long id, DispositivoUpdateDTO dispositivoDTO) throws DispositivoNoExisteException;
 
     void delete(Long id);
+
+    DispositivoResponseDTO saveComplete(@Valid PedidoCompleteDTO pedidoDTO) throws ClienteNoExistenteException;
+
+    DispositivoResponseDTO save(@Valid DispositivoDTO dispositivoDTO) throws ClienteNoExistenteException;
+
+    Page<DispositivoResponseDTO> getByClienteId(Long id, Pageable pageable);
+
+    Page<DispositivoResponseDTO> getByClienteDni(Long dni, Pageable pageable);
 
 }

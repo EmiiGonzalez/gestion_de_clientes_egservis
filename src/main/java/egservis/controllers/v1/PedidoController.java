@@ -23,6 +23,7 @@ import egservis.services.models.dto.pedido.PedidoResponseDTO;
 import egservis.services.models.dto.pedido.PedidoUpdateDTO;
 import egservis.services.models.dto.response.ResponseMessage;
 import egservis.services.models.exceptions.clienteExceptions.ClienteNoExistenteException;
+import egservis.services.models.exceptions.dispositivoExceptions.DispositivoNoExisteException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoDesactivadoException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoFechaEntregaInvalidaException;
 import egservis.services.models.exceptions.pedidoExceptions.PedidoFechaIngresoInvalidaException;
@@ -57,10 +58,11 @@ public class PedidoController {
     // GET METHODS END
 
     // POST METHOD START
+
     @PostMapping(value = "/save", headers = "Accept=application/json")
     @ResponseBody
     @Transactional
-    public ResponseEntity<PedidoResponseDTO> save(@RequestBody @Valid PedidoDTO pedidoDTO) throws PedidoNoExisteException, ClienteNoExistenteException {
+    public ResponseEntity<PedidoResponseDTO> save(@RequestBody @Valid PedidoDTO pedidoDTO) throws ClienteNoExistenteException, DispositivoNoExisteException {
         PedidoResponseDTO pedido = pedidoService.save(pedidoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
     }

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import egservis.persistence.entities.Cliente;
-import egservis.persistence.entities.Pedido;
+import egservis.persistence.entities.Dispositivo;
 import egservis.persistence.repository.ClienteRepository;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
@@ -113,7 +113,7 @@ public class ClienteServiceImp implements ClienteService {
     }
 
     @Override
-    public void addPedido(Pedido pedido, Long id) throws ClienteNoExistenteException {
+    public void addDispositivo(Dispositivo dispositivo, Long id) throws ClienteNoExistenteException {
 
         Optional<Cliente> c = clienteRepository.findById(id);
 
@@ -121,7 +121,7 @@ public class ClienteServiceImp implements ClienteService {
             throw new ClienteNoExistenteException("El cliente con el id " + id + " no existe");
         }
 
-        c.get().addPedidos(pedido);
+        c.get().addDispositivo(dispositivo);
     }
 
 }

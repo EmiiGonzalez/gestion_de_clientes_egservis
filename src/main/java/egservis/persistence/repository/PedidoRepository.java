@@ -20,7 +20,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
     @Query("SELECT new egservis.services.models.dto.pedido.PedidoResponseDTO(p) FROM Pedido p WHERE p.idPedido=?1 AND p.activo=true")
     public Optional<PedidoResponseDTO> obtenerPedido(Long id);
 
-    @Query("SELECT new egservis.services.models.dto.pedido.PedidoListDto(p) FROM Pedido p WHERE p.cliente.id=?1 AND p.activo=true")
+    @Query("SELECT new egservis.services.models.dto.pedido.PedidoListDto(p) FROM Pedido p WHERE p.dispositivo.id=?1 AND p.activo=true")
     public Page<PedidoListDto> obtenerListaPedidos(Long id, Pageable pageable);
    
 } 

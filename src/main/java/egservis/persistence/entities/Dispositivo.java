@@ -1,28 +1,30 @@
 package egservis.persistence.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import egservis.services.models.dto.dispositivo.DispositivoDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
+import egservis.services.models.dto.pedido.PedidoCompleteDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "dispositivos")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true) 
-@NoArgsConstructor
-@JsonIgnoreProperties({"pedido"})
 public class Dispositivo implements Serializable{
 
     @Id
@@ -38,10 +40,47 @@ public class Dispositivo implements Serializable{
     private Integer almacenamiento;
     private String pantalla;
     private String otros;
-    
-    @OneToOne
-    @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
-    private Pedido pedido;
+
+    @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.PERSIST)
+    private List<Pedido> pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+    private Cliente cliente;
+
+    public Dispositivo(DispositivoDTO dispositivoDTO) {
+        this.marca = dispositivoDTO.marca();
+        this.modelo = dispositivoDTO.modelo();
+        this.procesador = dispositivoDTO.procesador();
+        this.so = dispositivoDTO.so();
+        this.ram = dispositivoDTO.ram();
+        this.almacenamiento = dispositivoDTO.almacenamiento();
+        this.pantalla = dispositivoDTO.pantalla();
+        this.otros = dispositivoDTO.otros();
+        this.pedido = new ArrayList<>();
+    }
+
+    public Dispositivo() {
+        this.pedido = new ArrayList<>();
+    }
+
+    public Dispositivo(@Valid PedidoCompleteDTO pedidoDTO) {
+        this.marca = pedidoDTO.marca();
+        this.modelo = pedidoDTO.modelo();
+        this.procesador = pedidoDTO.procesador();
+        this.so = pedidoDTO.so();
+        this.ram = pedidoDTO.ram();
+        this.almacenamiento = pedidoDTO.almacenamiento();
+        this.pantalla = pedidoDTO.pantalla();
+        this.otros = pedidoDTO.otros();
+        this.pedido = new ArrayList<>();
+    }
+
+    public void addPedido(Pedido pedido) {
+        this.pedido.add(pedido);
+        pedido.setDispositivo(this);
+    }
+
 
     public void actualizarDatos(DispositivoUpdateDTO dispositivoUpdate) {
         if (dispositivoUpdate.marca() != null && !dispositivoUpdate.marca().isEmpty()) {
@@ -69,4 +108,6 @@ public class Dispositivo implements Serializable{
             this.otros = dispositivoUpdate.otros();
         }
     }
+
+    
 }

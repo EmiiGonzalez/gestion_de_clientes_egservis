@@ -8,6 +8,7 @@ import java.time.format.DateTimeParseException;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import egservis.services.models.dto.pedido.PedidoCompleteDTO;
 import egservis.services.models.dto.pedido.PedidoDTO;
 import egservis.services.models.dto.pedido.PedidoUpdateDTO;
 import egservis.services.models.enums.Estado;
@@ -24,10 +25,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -65,12 +66,7 @@ public class Pedido implements Serializable {
     private Servicio servicio;
     private boolean activo;
 
-    // Relaciones
     @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
-    private Cliente cliente;
-
-    @OneToOne(mappedBy = "pedido")
     @JoinColumn(name = "id_dispositivo", referencedColumnName = "id_dispositivo")
     private Dispositivo dispositivo;
 
@@ -79,6 +75,14 @@ public class Pedido implements Serializable {
         this.fechaIngreso = LocalDate.now();
         this.presupuesto = pedido.presupuesto();
         this.servicio = Servicio.fromString(pedido.servicio());
+        this.estado = Estado.INGRESADO;
+    }
+
+    public Pedido(@Valid PedidoCompleteDTO pedidoDTO) {
+        this.activo = true;
+        this.fechaIngreso = LocalDate.now();
+        this.presupuesto = pedidoDTO.presupuesto();
+        this.servicio = Servicio.fromString(pedidoDTO.servicio());
         this.estado = Estado.INGRESADO;
     }
 
@@ -129,5 +133,7 @@ public class Pedido implements Serializable {
             this.estado = Estado.fromString(pedidoUpdate.estado());
         }
     }
+
+   
 
 }

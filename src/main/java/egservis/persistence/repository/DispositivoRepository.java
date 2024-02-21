@@ -19,5 +19,12 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 
     @Query("SELECT new egservis.services.models.dto.dispositivo.DispositivoResponseDTO(d) FROM Dispositivo d WHERE d.id=?1")
     Optional<DispositivoResponseDTO> findByIdDTO(Long id);
+
+    @Query("SELECT new egservis.services.models.dto.dispositivo.DispositivoResponseDTO(d) FROM Dispositivo d WHERE d.cliente.id=?1")
+    Page<DispositivoResponseDTO> findPageByClienteId(Long id, Pageable pageable);
+
+    @Query("SELECT new egservis.services.models.dto.dispositivo.DispositivoResponseDTO(d) FROM Dispositivo d WHERE d.cliente.dni=?1")
+    Page<DispositivoResponseDTO> findPageByClienteDni(Long dni, Pageable pageable);
+    
     
 } 

@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record PedidoDTO(
-    @NotNull(message = "{idCliente.not.null}")
-    Long idCliente,
+    @NotNull(message = "{idDispositivo.not.null}")
+    Long idDispositivo,
 
     @NotNull(message = "{presupuesto.not.null}")
     BigDecimal presupuesto,
