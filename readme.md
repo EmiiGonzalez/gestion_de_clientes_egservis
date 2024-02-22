@@ -299,3 +299,436 @@ Este proyecto es un sistema de gestión de clientes y pedidos para una empresa d
     }
   ]
   ``` 
+
+  
+## Rutas de la api de dispositivos
+
+### Guardar un nuevo dispositivo y asignarle un pedido
+
+**Descripción:** Este endpoint guarda un nuevo dispositivo y le asigna un pedido al mismo.
+
+```http
+  POST /api/v1/dispositivo/new
+```
+
+#### Cuerpo de la solicitud 
+
+```json
+{
+    "idCliente": 0,
+    "presupuesto": 0,
+    "servicio": "string",
+    "marca": "string",
+    "modelo": "string",
+    "procesador": "string",
+    "so": "string",
+    "ram": 0,
+    "almacenamiento": 0,
+    "pantalla": "string",
+    "otros": "string"
+}
+
+``` 
+
+| Atributo      | Requisitos                                           |
+|---------------|------------------------------------------------------|
+| "idCliente"   | El ID del cliente es obligatorio y no puede ser nulo|
+| "presupuesto" | El presupuesto es obligatorio y no puede ser nulo   |
+| "servicio"    | El servicio es obligatorio y no puede estar en blanco. Además, debe seguir el patrón: DIAGNOSTICO, FORMATEO, MANTENIMIENTO, REPARACION |
+| "marca"       | La marca es obligatoria y no puede estar en blanco  |
+| "modelo"      | El modelo es obligatorio y no puede estar en blanco |
+| "procesador"  | El procesador es obligatorio y no puede estar en blanco |
+| "so"          | El sistema operativo es obligatorio y no puede estar en blanco |
+| "ram"         | La RAM es obligatoria y no puede ser nula           |
+| "almacenamiento" | El almacenamiento es obligatorio y no puede ser nulo|
+| "pantalla"    | La pantalla es obligatoria y no puede estar en blanco|
+| "otros"       | Otros detalles son opcionales                        |
+
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 201 Created
+  - Cuerpo de respuesta: 
+  ```json
+    {
+        "id": 0,
+        "propietario": "string",
+        "dni": "string",
+        "marca": "string",
+        "modelo": "string",
+        "procesador": "string",
+        "so": "string",
+        "ram": 0,
+        "almacenamiento": 0,
+        "pantalla": "string",
+        "otros": "string"
+    }
+
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 400 Bad Request
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ``` 
+
+### Guardar un dispositivo
+
+**Descripción:** Este endpoint guarda un nuevo dispositivo.
+
+```http
+  POST /api/v1/dispositivo/save
+```
+
+#### Cuerpo de la solicitud 
+
+```json
+{
+    "idCliente": 0,
+    "marca": "string",
+    "modelo": "string",
+    "procesador": "string",
+    "so": "string",
+    "ram": 0,
+    "almacenamiento": 0,
+    "pantalla": "string",
+    "otros": "string"
+}
+
+
+``` 
+
+| Atributo         | Requisitos                                                     |
+|------------------|----------------------------------------------------------------|
+| "idCliente"      | El ID del cliente es obligatorio y no puede ser nulo          |
+| "marca"          | La marca es obligatoria y no puede estar en blanco             |
+| "modelo"         | El modelo es obligatorio y no puede estar en blanco            |
+| "procesador"     | El procesador es obligatorio y no puede estar en blanco        |
+| "so"             | El sistema operativo es obligatorio y no puede estar en blanco |
+| "ram"            | La RAM es obligatoria y no puede ser nula                      |
+| "almacenamiento" | El almacenamiento es obligatorio y no puede ser nulo            |
+| "pantalla"       | La pantalla es obligatoria y no puede estar en blanco          |
+| "otros"          | Otros detalles son opcionales                                  |
+
+
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 201 Created
+  - Cuerpo de respuesta: 
+  ```json
+    {
+        "id": 0,
+        "propietario": "string",
+        "dni": "string",
+        "marca": "string",
+        "modelo": "string",
+        "procesador": "string",
+        "so": "string",
+        "ram": 0,
+        "almacenamiento": 0,
+        "pantalla": "string",
+        "otros": "string"
+    }
+
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 400 Bad Request
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ``` 
+
+
+### Obtener todos los dispositivos
+
+**Descripción:** Recupera una lista paginada de todos los dispositivos registrados en el sistema
+
+```http
+  GET /api/v1/dispositivo/get
+```
+| Parámetros de ruta |  Descripcion  |           
+| :-------- |:-------------------------|
+| `page` | (Opcional) Número de página para la paginación, comenzando desde 0. Por defecto: 0.| 
+| `size` | (Opcional) Tamaño de la página para la paginación. Por defecto: 10.|
+
+#### Cuerpo de la solicitud 
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 200 OK
+  - Cuerpo de respuesta: 
+  ```json
+  {
+  "content": [
+            {
+                "id": 0,
+                "propietario": "string",
+                "dni": "string",
+                "marca": "string",
+                "modelo": "string",
+                "procesador": "string",
+                "so": "string",
+                "ram": 0,
+                "almacenamiento": 0,
+                "pantalla": "string",
+                "otros": "string"
+            }
+    ]
+  }
+  ``` 
+
+
+
+### Obtener dispositivo por ID
+
+**Descripción:** Recupera los detalles de un dispositivo específico según su ID.
+.
+
+```http
+  GET /api/v1/dispositivo/get/id/{id}
+```
+
+| Parámetros de ruta |  Descripcion             | 
+| :-------- |:------------------------- | 
+| `{id}` | El ID del dispositivo |
+
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 200 OK
+  - Cuerpo de respuesta: 
+  ```json
+    {
+        "id": 0,
+        "propietario": "string",
+        "dni": "string",
+        "marca": "string",
+        "modelo": "string",
+        "procesador": "string",
+        "so": "string",
+        "ram": 0,
+        "almacenamiento": 0,
+        "pantalla": "string",
+        "otros": "string"
+    }
+
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 404 Not Found
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ``` 
+
+### Obtener dispositivos por ID de cliente
+
+**Descripción:** Recupera una lista paginada de dispositivos asociados a un cliente según su ID.
+
+```http
+  GET /api/v1/dispositivo/get/cliente/id/{id}
+```
+
+| Parámetros de ruta |  Descripcion             | 
+| :-------- |:------------------------- | 
+| `{id}` | ID del cliente cuyos dispositivos se desean recuperar.
+| `page` | (Opcional) Número de página para la paginación, comenzando desde 0. Por defecto: 0.| 
+| `size` | (Opcional) Tamaño de la página para la paginación. Por defecto: 10.|
+
+#### Cuerpo de la solicitud 
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 200 OK
+  - Cuerpo de respuesta: 
+  ```json
+  {
+  "content": [
+            {
+                "id": 0,
+                "propietario": "string",
+                "dni": "string",
+                "marca": "string",
+                "modelo": "string",
+                "procesador": "string",
+                "so": "string",
+                "ram": 0,
+                "almacenamiento": 0,
+                "pantalla": "string",
+                "otros": "string"
+            }
+    ]
+  }
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 404 Not Found
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ```
+
+### Obtener dispositivos por ID de cliente
+
+**Descripción:** Recupera una lista paginada de dispositivos asociados a un cliente según su DNI.
+
+```http
+  GET /api/v1/dispositivo/get/cliente/dni/{dni}
+```
+
+| Parámetros de ruta |  Descripcion             | 
+| :-------- |:------------------------- | 
+| `{dni}` | DNI del cliente cuyos dispositivos se desean recuperar.
+| `page` | (Opcional) Número de página para la paginación, comenzando desde 0. Por defecto: 0.| 
+| `size` | (Opcional) Tamaño de la página para la paginación. Por defecto: 10.|
+
+#### Cuerpo de la solicitud 
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 200 OK
+  - Cuerpo de respuesta: 
+  ```json
+  {
+  "content": [
+            {
+                "id": 0,
+                "propietario": "string",
+                "dni": "string",
+                "marca": "string",
+                "modelo": "string",
+                "procesador": "string",
+                "so": "string",
+                "ram": 0,
+                "almacenamiento": 0,
+                "pantalla": "string",
+                "otros": "string"
+            }
+    ]
+  }
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 404 Not Found
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ```
+
+### Actualizar dispositivo existente
+
+**Descripción:** Este endpoint actualiza la información de un dispositivo existente según su ID.
+
+```http
+  PUT /api/v1/dispositivo/update/{id}
+```
+| Parámetros de ruta |  Descripcion             | 
+| :-------- |:------------------------- | 
+| `{id}` | El Id del dispositivo |
+
+#### Cuerpo de la solicitud 
+
+*Se permite enviar solo un atributo para ahorrar recursos en la peticion*
+
+```json
+{
+    "marca": "string",
+    "modelo": "string",
+    "procesador": "string",
+    "so": "string",
+    "ram": 0,
+    "almacenamiento": 0,
+    "pantalla": "string",
+    "otros": "string"
+}
+
+``` 
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 200 Ok
+  - Cuerpo de respuesta: 
+  ```json
+    {
+        "id": 0,
+        "propietario": "string",
+        "dni": "string",
+        "marca": "string",
+        "modelo": "string",
+        "procesador": "string",
+        "so": "string",
+        "ram": 0,
+        "almacenamiento": 0,
+        "pantalla": "string",
+        "otros": "string"
+    }
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 404 Not Found
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ```
+
+### Eliminar dispositivo
+
+**Descripción:** Elimina un dispositivo del sistema según su ID.
+
+```http
+  DELETE /api/v1/dispositivo/delete/{id}
+```
+| Parámetros de ruta |  Descripcion             | 
+| :-------- |:------------------------- | 
+| `{id}` | El Id del dispositivo |
+
+#### Cuerpo de la solicitud 
+
+- **Encabezados de solicitud aceptados:** `Accept=application/json`
+- **Respuesta exitosa:**
+  - Código de estado: 200 Ok
+  - Cuerpo de respuesta: 
+  ```json
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ``` 
+- **Respuesta fallida:**
+  - Código de estado: 404 Not Found
+  - Cuerpo de respuesta: 
+  ```json
+  [
+    {
+        "message": "string",
+        "errorCode": Integer
+    }
+  ]
+  ```
