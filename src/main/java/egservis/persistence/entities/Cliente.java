@@ -2,7 +2,10 @@ package egservis.persistence.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
@@ -14,6 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Entity
@@ -30,6 +35,11 @@ public class Cliente implements Serializable{
     @Column(name = "num_telefono")
     private String numTelefono;
     private Boolean activo;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Date createdAt;
    
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
     private List<Dispositivo> dispositivos; 

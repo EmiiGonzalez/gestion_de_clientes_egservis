@@ -9,5 +9,6 @@ CREATE TABLE dispositivos (
     pantalla VARCHAR(255),
     otros VARCHAR(255),
     id_cliente BIGINT,
+    created_at TIMESTAMP NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
