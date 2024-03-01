@@ -1,11 +1,9 @@
 package egservis.services.dispositivo;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import egservis.services.models.dto.dispositivo.DispositivoCountMothDTO;
+import egservis.services.models.dto.dispositivo.DispositivoCountResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoDTO;
 import egservis.services.models.dto.dispositivo.DispositivoResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
@@ -33,6 +31,6 @@ public interface DispositivoService {
 
     Page<DispositivoResponseDTO> getByClienteDni(Long dni, Pageable pageable);
 
-    List<DispositivoCountMothDTO> findAllByMes();
+    DispositivoCountResponseDTO findAllByMes(Integer year);
 
 }

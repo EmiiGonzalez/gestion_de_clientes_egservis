@@ -1,7 +1,5 @@
 package egservis.controllers.v1;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import egservis.services.cliente.ClienteService;
 import egservis.services.models.PersonalizedMessage;
+import egservis.services.models.dto.cliente.ClienteCountResponseDTO;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.ClientesCountMonthDTO;
 import egservis.services.models.dto.cliente.ClienteResponseDTO;
 import egservis.services.models.dto.response.ResponseMessage;
 import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
@@ -72,11 +70,9 @@ public class ClienteController {
 
     @GetMapping(value = "/get/count/{year}", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<List<ClientesCountMonthDTO>> getCount(@PathVariable() Integer year) {
+    public ResponseEntity<ClienteCountResponseDTO> getCount(@PathVariable() Integer year) {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAllByMes(year));
     }
-    
-    
     //GET METHODS END
 
     // POST METHOD START

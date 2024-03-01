@@ -1,6 +1,5 @@
 package egservis.services.dispositivo;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,7 +10,7 @@ import egservis.persistence.entities.Dispositivo;
 import egservis.persistence.entities.Pedido;
 import egservis.persistence.repository.DispositivoRepository;
 import egservis.services.cliente.ClienteServiceImp;
-import egservis.services.models.dto.dispositivo.DispositivoCountMothDTO;
+import egservis.services.models.dto.dispositivo.DispositivoCountResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoDTO;
 import egservis.services.models.dto.dispositivo.DispositivoResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
@@ -59,8 +58,8 @@ public class DispositivoServiceImp implements DispositivoService{
     }
 
     @Override
-    public List<DispositivoCountMothDTO> findAllByMes() {
-       return dispositivoRepository.findAllByMes();
+    public DispositivoCountResponseDTO findAllByMes(Integer year) {
+       return new DispositivoCountResponseDTO(dispositivoRepository.findAllByMes(year));
     }
     //GET METHODS END
     

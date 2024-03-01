@@ -1,6 +1,5 @@
 package egservis.services.cliente;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -10,9 +9,9 @@ import org.springframework.stereotype.Service;
 import egservis.persistence.entities.Cliente;
 import egservis.persistence.entities.Dispositivo;
 import egservis.persistence.repository.ClienteRepository;
+import egservis.services.models.dto.cliente.ClienteCountResponseDTO;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
-import egservis.services.models.dto.cliente.ClientesCountMonthDTO;
 import egservis.services.models.dto.cliente.ClienteResponseDTO;
 import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
@@ -127,8 +126,8 @@ public class ClienteServiceImp implements ClienteService {
     }
 
     @Override
-    public List<ClientesCountMonthDTO> findAllByMes(Integer year) {
-        return clienteRepository.findAllByMes(year);
+    public ClienteCountResponseDTO findAllByMes(Integer year) {
+        return new ClienteCountResponseDTO(clienteRepository.findAllByMes(year));
     }
 
 }
