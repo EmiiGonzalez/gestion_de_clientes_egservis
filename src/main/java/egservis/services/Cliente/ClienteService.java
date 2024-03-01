@@ -1,5 +1,6 @@
 package egservis.services.cliente;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import egservis.persistence.entities.Cliente;
 import egservis.persistence.entities.Dispositivo;
 import egservis.services.models.dto.cliente.ClienteDTO;
 import egservis.services.models.dto.cliente.ClienteUpdateDTO;
+import egservis.services.models.dto.cliente.ClientesCountMonthDTO;
 import egservis.services.models.dto.cliente.ClienteResponseDTO;
 import egservis.services.models.exceptions.clienteExceptions.ClienteDesactivadoException;
 import egservis.services.models.exceptions.clienteExceptions.ClienteExistenteException;
@@ -33,4 +35,6 @@ public interface ClienteService {
     Optional<Cliente> activate(Long id) throws ClienteNoExistenteException, ClienteDesactivadoException;
 
     void addDispositivo(Dispositivo dispositivo, Long id) throws ClienteNoExistenteException;
+
+    List<ClientesCountMonthDTO> findAllByMes(Integer year);
 }

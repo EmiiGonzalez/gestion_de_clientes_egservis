@@ -1,5 +1,6 @@
 package egservis.services.dispositivo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import egservis.persistence.entities.Dispositivo;
 import egservis.persistence.entities.Pedido;
 import egservis.persistence.repository.DispositivoRepository;
 import egservis.services.cliente.ClienteServiceImp;
+import egservis.services.models.dto.dispositivo.DispositivoCountMothDTO;
 import egservis.services.models.dto.dispositivo.DispositivoDTO;
 import egservis.services.models.dto.dispositivo.DispositivoResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
@@ -39,11 +41,11 @@ public class DispositivoServiceImp implements DispositivoService{
         if (!dispositivo.isPresent()) {
             throw new DispositivoNoExisteException("El dispositivo con el id " + id + " no existe");
         } 
-
+        
         return dispositivo.get();
         
     }
-
+    
     @Override
     public Page<DispositivoResponseDTO> getByClienteId(Long id, Pageable pageable) {
         Page<DispositivoResponseDTO> page = dispositivoRepository.findPageByClienteId(id, pageable);
@@ -55,8 +57,13 @@ public class DispositivoServiceImp implements DispositivoService{
         Page<DispositivoResponseDTO> page = dispositivoRepository.findPageByClienteDni(dni, pageable);
         return page;
     }
-    //GET METHODS END
 
+    @Override
+    public List<DispositivoCountMothDTO> findAllByMes() {
+       return dispositivoRepository.findAllByMes();
+    }
+    //GET METHODS END
+    
     //PUT METHODS START
     @Override
     public DispositivoResponseDTO update(Long id, DispositivoUpdateDTO dispositivoDTO) throws DispositivoNoExisteException {
@@ -110,4 +117,5 @@ public class DispositivoServiceImp implements DispositivoService{
 
         dispositivo.get().addPedido(p);
     }
+
 }

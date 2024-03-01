@@ -1,5 +1,7 @@
 package egservis.controllers.v1;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import egservis.services.dispositivo.DispositivoService;
 import egservis.services.models.PersonalizedMessage;
+import egservis.services.models.dto.dispositivo.DispositivoCountMothDTO;
 import egservis.services.models.dto.dispositivo.DispositivoDTO;
 import egservis.services.models.dto.dispositivo.DispositivoResponseDTO;
 import egservis.services.models.dto.dispositivo.DispositivoUpdateDTO;
@@ -62,6 +65,11 @@ public class DispositivoController {
         return dispositivoService.getByClienteDni(dni, pageable);
     }
 
+    @GetMapping(value = "/get/count", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<List<DispositivoCountMothDTO>> getCount() {
+        return ResponseEntity.status(HttpStatus.OK).body(dispositivoService.findAllByMes());
+    }
     // GET METHODS END
 
     // PUT METHOD START
