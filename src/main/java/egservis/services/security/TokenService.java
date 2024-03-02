@@ -57,7 +57,7 @@ public class TokenService {
                     .verify(token);
             verifier.getSubject();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("El token es invalido o ha sido alterado", exception);
+            throw new RuntimeException("El token es invalido o ha sido alterado");
         }
 
         if (verifier.getSubject() == null) {

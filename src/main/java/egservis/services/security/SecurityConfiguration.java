@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import lombok.AllArgsConstructor;
 
 @Configuration
@@ -28,7 +27,6 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable()) // como es via token no hay csrf
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
@@ -37,7 +35,6 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //session no es persistente en el navegador
                 .httpBasic(Customizer.withDefaults())
                 .build();
-
     }
 
     // Este metodo es para que spring sepa que se va a usar el AuthenticationManager y tener una instancia del mismo en todo el proyecto
@@ -51,4 +48,5 @@ public class SecurityConfiguration {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
