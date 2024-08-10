@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>egservis</groupId>
 	<artifactId>egservis</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v1</version>
 	<name>egservis</name>
 	<description>Api rest egservis</description>
 	<properties>
